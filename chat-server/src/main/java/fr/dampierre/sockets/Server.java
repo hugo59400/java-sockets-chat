@@ -41,7 +41,6 @@ public final class Server {
     }
   }
 
-
   private void enregistrerClient(ClientThread clientThread) {
     clients[nbClients] = clientThread;
     nbClients++;
@@ -50,7 +49,9 @@ public final class Server {
   public void broadcasterMessage(String msg) {
     System.out.println("### Broadcast du message : " + msg);
     for (ClientThread client : clients) {
-      client.transmettreMessage(msg);
+      if (client != null) {
+        client.transmettreMessage(msg);
+      }
     }
   }
 

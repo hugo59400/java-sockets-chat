@@ -1,7 +1,6 @@
 package fr.dampierre.sockets;
 
 import java.net.Socket;
-import java.util.Scanner;
 
 public final class Client {
 
