@@ -1,6 +1,7 @@
 package fr.dampierre.sockets;
 
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -30,17 +31,13 @@ public final class Server {
         Socket clientSocket = serverSocket.accept();
         System.out.println("### Connexion client depuis : " + clientSocket.getInetAddress());
 
-
-        InputStream inStream = clientSocket.getInputStream();
-        DataInputStream inDataStream = new DataInputStream(inStream);
-        String pseudo = inDataStream.readUTF();
+        String pseudo = recupererPseudo(clientSocket);
 
         broadcasterNouvelleConnexion(pseudo);
 
         ClientThread clientThread = new ClientThread(clientSocket, this, pseudo);
 
         enregistrerClient(clientThread);
-
 
         clientThread.start();
 
@@ -49,6 +46,13 @@ public final class Server {
         System.err.println("!!! Détails : " + ex.getMessage());
       }
     }
+  }
+
+  private String recupererPseudo(Socket socket) throws IOException {
+    InputStream inStream = socket.getInputStream();
+    DataInputStream inDataStream = new DataInputStream(inStream);
+    String pseudo = inDataStream.readUTF();
+    return pseudo;
   }
 
   private void broadcasterNouvelleConnexion(String pseudo) {
