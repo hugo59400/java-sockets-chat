@@ -1,5 +1,7 @@
 package fr.dampierre.sockets;
 
+import java.io.DataInputStream;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -28,7 +30,12 @@ public final class Server {
         Socket clientSocket = serverSocket.accept();
         System.out.println("### Connexion client depuis : " + clientSocket.getInetAddress());
 
-        ClientThread clientThread = new ClientThread(clientSocket, this);
+
+        InputStream inStream = clientSocket.getInputStream();
+        DataInputStream inDataStream = new DataInputStream(inStream);
+        String pseudo = inDataStream.readUTF();
+
+        ClientThread clientThread = new ClientThread(clientSocket, this, pseudo);
 
         enregistrerClient(clientThread);
 

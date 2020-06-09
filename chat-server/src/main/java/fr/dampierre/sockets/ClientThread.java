@@ -9,12 +9,14 @@ import java.net.Socket;
 
 public class ClientThread extends Thread {
 
+  private String pseudo;
   private Server serveur;
   private DataInputStream inDataStream;
   private DataOutputStream outDataStream;
 
-  public ClientThread(Socket clientSocket, Server serveur) {
+  public ClientThread(Socket clientSocket, Server serveur, String pseudo) {
     this.serveur = serveur;
+    this.pseudo = pseudo;
 
     try {
       InputStream inStream = clientSocket.getInputStream();
@@ -35,6 +37,7 @@ public class ClientThread extends Thread {
     try {
       while (true) {
         String msg = inDataStream.readUTF();
+        msg = pseudo + " >> " + msg;
         serveur.broadcasterMessage(msg);
       }
     } catch (Exception e) {
