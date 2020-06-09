@@ -35,9 +35,12 @@ public final class Server {
         DataInputStream inDataStream = new DataInputStream(inStream);
         String pseudo = inDataStream.readUTF();
 
+        broadcasterNouvelleConnexion(pseudo);
+
         ClientThread clientThread = new ClientThread(clientSocket, this, pseudo);
 
         enregistrerClient(clientThread);
+
 
         clientThread.start();
 
@@ -46,6 +49,11 @@ public final class Server {
         System.err.println("!!! Détails : " + ex.getMessage());
       }
     }
+  }
+
+  private void broadcasterNouvelleConnexion(String pseudo) {
+    String msg = pseudo + " est connecté.";
+    broadcasterMessage(msg);
   }
 
   private void enregistrerClient(ClientThread clientThread) {

@@ -32,7 +32,7 @@ public class ClientThread extends Thread {
 
   @Override
   public void run() {
-    System.out.println("### Démarrage du thread client.");
+    System.out.println("### Démarrage du thread client : " + pseudo);
 
     try {
       while (true) {
